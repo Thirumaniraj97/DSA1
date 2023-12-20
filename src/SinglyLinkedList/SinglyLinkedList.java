@@ -199,6 +199,54 @@ public class SinglyLinkedList {
 		return mainPtr;
 	}
 
+	public void removeDuplicates() {
+		if (head == null) {
+			return;
+		}
+		ListNode current = head;
+		while (current != null && current.next != null) {
+			if (current.data == current.next.data) {
+				current.next = current.next.next;
+			} else {
+				current = current.next;
+			}
+		}
+	}
+
+	public ListNode insertInSortedList(int value) {
+		ListNode newNode = new ListNode(value);
+		if (head == null) {
+			return newNode;
+		}
+		ListNode current = head;
+		ListNode temp = null;
+		while (current != null && current.data < newNode.data) {
+			temp = current;
+			current = current.next;
+		}
+		newNode.next = current;
+		temp.next = newNode;
+		return head;
+	}
+
+	public void deleteNode(int key) {
+		ListNode current = head;
+		ListNode temp = null;
+		//when head is the key
+		if (current != null && current.data == key) {
+			head = current.next;
+			return;
+		}
+		while (current != null && current.data != key) {
+			temp = current;
+			current = current.next;
+		}
+		if (current == null) {  //key not found
+			return;
+		}
+		temp.next = current.next;
+	}
+
 	public static void main(String[] args) {
 		SinglyLinkedList singlyLinkedList = new SinglyLinkedList();
 		singlyLinkedList.head = new ListNode(10);
@@ -220,7 +268,7 @@ public class SinglyLinkedList {
 		System.out.println(singlyLinkedList.deleteLast().data);
 		singlyLinkedList.display();
 
-		System.out.println("****************************");
+		System.out.println("********** sl2 ******************");
 		SinglyLinkedList sl2 = new SinglyLinkedList();
 		sl2.head = new ListNode(33);
 		ListNode sl2second = new ListNode(44);
@@ -250,6 +298,22 @@ public class SinglyLinkedList {
 			System.out.println("Search Key Found");
 		else
 			System.out.println("Search Key Not Found");
+
+		System.out.println("******* sl3 *********************");
+		SinglyLinkedList sl3 = new SinglyLinkedList();
+		sl3.insertFirst(15);
+		sl3.insertFirst(3);
+		sl3.insertFirst(3);
+		sl3.insertFirst(2);
+		sl3.insertFirst(1);
+		sl3.insertFirst(1);
+		sl3.display();
+		sl3.removeDuplicates();
+		sl3.display();
+		sl3.insertInSortedList(11);
+		sl3.display();
+		sl3.deleteNode(3);
+		sl3.display();
 
 
 	}
