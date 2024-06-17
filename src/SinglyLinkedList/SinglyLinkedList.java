@@ -296,7 +296,28 @@ public class SinglyLinkedList {
 			temp = temp.next;
 			slowPtr = slowPtr.next;
 		}
-		return temp;
+		return temp; //starting node of the loop
+	}
+
+	public void removeLoop() {
+		ListNode fastPtr = head;
+		ListNode slowPtr = head;
+		while (fastPtr != null && fastPtr.next != null) {
+			fastPtr = fastPtr.next.next;
+			slowPtr = slowPtr.next;
+			if (fastPtr == slowPtr) {
+				removeLoop(slowPtr);
+				return;
+			}
+		}
+	}
+	public void removeLoop(ListNode slowPtr){
+		ListNode temp = head;
+		while (temp.next != slowPtr.next) {
+			temp = temp.next;
+			slowPtr = slowPtr.next;
+		}
+		slowPtr.next = null;
 	}
 
 	public static void main(String[] args) {
@@ -372,6 +393,10 @@ public class SinglyLinkedList {
 		sl4.createLoopInLinkedList();
 		System.out.println("Contains Loop: " + sl4.containsLoop());
 		System.out.println("Starting Node data is : "+ sl4.startNodeInALoop().data);
+		//now remove loop
+		sl4.removeLoop();
+		sl4.display();
+
 	}
 }
 
