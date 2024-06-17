@@ -247,6 +247,58 @@ public class SinglyLinkedList {
 		temp.next = current.next;
 	}
 
+	public boolean containsLoop() {
+		ListNode fastPtr = head;
+		ListNode slowPtr = head;
+		while (fastPtr != null && fastPtr.next != null) {
+			fastPtr = fastPtr.next.next;
+			slowPtr = slowPtr.next;
+			if (fastPtr == slowPtr) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public void createLoopInLinkedList() {
+		ListNode first = new ListNode(1);
+		ListNode second = new ListNode(2);
+		ListNode third = new ListNode(3);
+		ListNode fourth = new ListNode(4);
+		ListNode fifth = new ListNode(5);
+		ListNode sixth = new ListNode(6);
+
+		head = first;
+		first.next = second;
+		second.next = third;
+		third.next = fourth;
+		fourth.next = fifth;
+		fifth.next = sixth;
+		sixth.next = third;
+	}
+
+	public ListNode startNodeInALoop() {
+		ListNode fastPtr = head;
+		ListNode slowPtr = head;
+		while (fastPtr != null && fastPtr.next != null) {
+			fastPtr = fastPtr.next.next;
+			slowPtr = slowPtr.next;
+			if (fastPtr == slowPtr) {
+				return getStartingNode(slowPtr);
+			}
+		}
+		return null;
+	}
+
+	private ListNode getStartingNode(ListNode slowPtr) {
+		ListNode temp = head;
+		while (temp != slowPtr) {
+			temp = temp.next;
+			slowPtr = slowPtr.next;
+		}
+		return temp;
+	}
+
 	public static void main(String[] args) {
 		SinglyLinkedList singlyLinkedList = new SinglyLinkedList();
 		singlyLinkedList.head = new ListNode(10);
@@ -315,7 +367,11 @@ public class SinglyLinkedList {
 		sl3.deleteNode(3);
 		sl3.display();
 
-
+		System.out.println("******* sl4 *********************");
+		SinglyLinkedList sl4 = new SinglyLinkedList();
+		sl4.createLoopInLinkedList();
+		System.out.println("Contains Loop: " + sl4.containsLoop());
+		System.out.println("Starting Node data is : "+ sl4.startNodeInALoop().data);
 	}
 }
 
