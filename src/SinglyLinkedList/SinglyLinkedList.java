@@ -1,5 +1,9 @@
 package SinglyLinkedList;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class SinglyLinkedList {
 	private ListNode head;
 
@@ -43,7 +47,7 @@ public class SinglyLinkedList {
 		return count;
 	}
 
-	public void insertFirst(int value) {
+	public void 	insertFirst(int value) {
 		ListNode newNode = new ListNode(value);
 		newNode.next = head;
 		head = newNode;
@@ -320,6 +324,77 @@ public class SinglyLinkedList {
 		slowPtr.next = null;
 	}
 
+	public static ListNode merge(ListNode a, ListNode b){
+		// a --> 1 --> 3 --> 5 --> null
+		// b --> 2 --> 4 --> 6 --> null
+		// result --> 1 --> 2 --> 3 --> 4 --> 5 --> 6 --> null
+		ListNode dummy = new ListNode(0);
+		ListNode tail = dummy;
+		while(a != null && b!= null){
+			if(a.data < b.data){
+				tail.next = a;
+				a = a.next;
+			}else {
+				tail.next = b;
+				b = b.next;
+			}
+			tail = tail.next;
+		}
+
+		if(a == null){
+			tail.next = b;
+		}else {
+			tail.next = a;
+		}
+		return dummy.next;
+	}
+
+	//Leetcode
+	public static ListNode mergeKLists(ListNode[] lists) {
+		List<Integer> x = new ArrayList<>();
+		for(int i=0; i < lists.length; i++){
+			ListNode temp = lists[i];
+			while(temp != null){
+				x.add(temp.data);
+				temp =temp.next;
+			}
+		}
+		Collections.sort(x);
+		ListNode dummy = new ListNode(0);
+		ListNode tail = dummy;
+		for(int i : x){
+			ListNode node = new ListNode(i);
+			tail.next = node;
+			tail = tail.next;
+		}
+		return dummy.next;
+	}
+
+	//Leetcode
+	public static ListNode addTwoNumbers(ListNode a, ListNode b) {
+		ListNode dummy = new ListNode(0);
+		ListNode tail = dummy;
+		int carry = 0;
+
+		while(a != null || b != null){
+			int x = (a != null) ? a.data : 0;
+			int y = (b != null) ? b.data : 0;
+			int sum = carry + x + y;
+			ListNode node = new ListNode(sum%10);
+			carry = sum/10;
+			tail.next = node;
+			tail = tail.next;
+			if(a != null)
+				a = a.next;
+			if(b != null)
+				b = b.next;
+		}
+		if(carry > 0){
+			ListNode newNode = new ListNode(carry);
+			tail.next = newNode;
+		}
+		return dummy.next;
+	}
 	public static void main(String[] args) {
 		SinglyLinkedList singlyLinkedList = new SinglyLinkedList();
 		singlyLinkedList.head = new ListNode(10);
@@ -396,6 +471,34 @@ public class SinglyLinkedList {
 		//now remove loop
 		sl4.removeLoop();
 		sl4.display();
+		System.out.println("******* sl5 *********************");
+
+		SinglyLinkedList sl5 = new SinglyLinkedList();
+		sl5.insertLast(1);
+		sl5.insertLast(4);
+		sl5.insertLast(8);
+
+		SinglyLinkedList sl6 = new SinglyLinkedList();
+		sl6.insertLast(3);
+		sl6.insertLast(5);
+		sl6.insertLast(8);
+		sl6.insertLast(9);
+		sl6.insertLast(14);
+		sl6.insertLast(18);
+		sl5.display();
+		sl6.display();
+		SinglyLinkedList result = new SinglyLinkedList();
+		result.head = merge(sl5.head, sl6.head);
+		result.display();
+
+		List<ListNode> list = new ArrayList<>();
+		list.add(sl5.head);
+		list.add(sl6.head);
+		var ans = mergeKLists(list.toArray(new ListNode[list.size()]));
+		while(ans != null){
+			System.out.print(ans.data + " --> ");
+			ans = ans.next;
+		}
 
 	}
 }
