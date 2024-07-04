@@ -203,6 +203,25 @@ public class SinglyLinkedList {
 		return mainPtr;
 	}
 
+	public ListNode removeNthFromEnd(ListNode head, int n) {
+		ListNode mainPtr = head;
+		ListNode refPtr = head;
+		int count = 0;
+		if (head == null) {
+			return null;
+		}
+		while (count < n) {
+			refPtr = refPtr.next;
+			count++;
+		}
+
+		while (refPtr.next != null) {
+			mainPtr = mainPtr.next;
+			refPtr = refPtr.next;
+		}
+		return mainPtr;
+	}
+
 	public void removeDuplicates() {
 		if (head == null) {
 			return;
@@ -420,9 +439,9 @@ public class SinglyLinkedList {
 		SinglyLinkedList sl2 = new SinglyLinkedList();
 		sl2.head = new ListNode(33);
 		ListNode sl2second = new ListNode(44);
-		ListNode sl2third = new ListNode(55);
+//		ListNode sl2third = new ListNode(55);
 		sl2.head.next = sl2second;
-		sl2second.next = sl2third;
+//		sl2second.next = sl2third;
 		sl2.display();
 
 		ListNode middleNode = sl2.getMiddleNode();
@@ -430,6 +449,9 @@ public class SinglyLinkedList {
 
 		ListNode nthNodeFromEnd = sl2.getNthNodeFromEnd(2);
 		System.out.println("Nth node from end is : " + nthNodeFromEnd.data);
+
+		ListNode removeNthFromEnd = sl2.removeNthFromEnd(sl2.head, 1);
+		System.out.println("Nth node from end is : " + removeNthFromEnd.data);
 
 		ListNode reversedList = sl2.reverse(sl2.head);  //this cuts off head. So only we are returning previous
 		sl2.displayReversedhead(reversedList);
