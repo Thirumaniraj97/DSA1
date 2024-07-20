@@ -204,22 +204,32 @@ public class SinglyLinkedList {
 	}
 
 	public ListNode removeNthFromEnd(ListNode head, int n) {
-		ListNode mainPtr = head;
-		ListNode refPtr = head;
+		ListNode dummy = new ListNode(0);
+		dummy.next = head;
+		ListNode mainPtr = dummy;
+		ListNode refPtr = dummy;
 		int count = 0;
 		if (head == null) {
 			return null;
 		}
-		while (count < n) {
+		if (n <= 0) {
+			throw new IllegalArgumentException("Invalid Value n = " + n);
+		}
+		while (count <= n) {
+			if (refPtr == null) {
+				throw new IllegalArgumentException();
+			}
 			refPtr = refPtr.next;
 			count++;
 		}
 
-		while (refPtr.next != null) {
+		while (refPtr != null) {
 			mainPtr = mainPtr.next;
 			refPtr = refPtr.next;
 		}
-		return mainPtr;
+
+		mainPtr.next = mainPtr.next.next;
+		return dummy.next;
 	}
 
 	public void removeDuplicates() {
@@ -444,14 +454,19 @@ public class SinglyLinkedList {
 //		sl2second.next = sl2third;
 		sl2.display();
 
+		sl2.insertLast(10);
+		sl2.insertLast(20);
+		sl2.display();
+
 		ListNode middleNode = sl2.getMiddleNode();
 		System.out.println("Middle node is : " + middleNode.data);
 
 		ListNode nthNodeFromEnd = sl2.getNthNodeFromEnd(2);
 		System.out.println("Nth node from end is : " + nthNodeFromEnd.data);
 
-		ListNode removeNthFromEnd = sl2.removeNthFromEnd(sl2.head, 1);
-		System.out.println("Nth node from end is : " + removeNthFromEnd.data);
+		ListNode remaining = sl2.removeNthFromEnd(sl2.head, 2);
+		System.out.println("Remaining list after removing nth node : ");
+		sl2.display();
 
 		ListNode reversedList = sl2.reverse(sl2.head);  //this cuts off head. So only we are returning previous
 		sl2.displayReversedhead(reversedList);
