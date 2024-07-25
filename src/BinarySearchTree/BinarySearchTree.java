@@ -1,12 +1,10 @@
 package BinarySearchTree;
 
-import java.util.Queue;
-
 public class BinarySearchTree {
 
 	private TreeNode root;
 
-	private class TreeNode{
+	private class TreeNode {
 		private int data;
 		private TreeNode left;
 		private TreeNode right;
@@ -15,33 +13,50 @@ public class BinarySearchTree {
 			this.data = data;
 		}
 	}
-	public void insert(int value){
+
+	public void insert(int value) {
 		root = insert(root, value);
 	}
 
-	public TreeNode insert(TreeNode root, int value){
-		if(root == null){
+	public TreeNode insert(TreeNode root, int value) {
+		if (root == null) {
 			root = new TreeNode(value);
 			return root;
 		}
-		if(value < root.data){
+		if (value < root.data) {
 			root.left = insert(root.left, value);
-		}else {
+		} else {
 			root.right = insert(root.right, value);
 		}
 		return root;
 	}
 
-	public void inOrder(){
+	public void inOrder() {
 		inOrder(root);
 	}
-	public void inOrder(TreeNode root){
-		if(root == null){
+
+	public void inOrder(TreeNode root) {
+		if (root == null) {
 			return;
 		}
 		inOrder(root.left);
 		System.out.print(root.data + " ");
 		inOrder(root.right);
+	}
+
+	public TreeNode search(int key) {
+		return search(root, key);
+	}
+
+	public TreeNode search(TreeNode root, int key) {
+		if (root == null || root.data == key) { // base case
+			return root;
+		}
+		if (key < root.data) {
+			return search(root.left, key);
+		} else {
+			return search(root.right, key);
+		}
 	}
 
 
@@ -53,6 +68,12 @@ public class BinarySearchTree {
 		bst.insert(1);
 
 		bst.inOrder();
+		System.out.println();
+		if (bst.search(10) != null) {
+			System.out.println("Key found");
+		} else {
+			System.out.println("Key not found");
+		}
 
 	}
 }

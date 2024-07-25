@@ -1,9 +1,6 @@
 package BinaryTree;
 
-import java.sql.SQLOutput;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.*;
 
 public class BinaryTree {
 
